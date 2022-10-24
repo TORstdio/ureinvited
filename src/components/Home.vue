@@ -112,7 +112,7 @@ import axios from "axios"
             axios.patch(process.env.VUE_APP_BACKEND_ROUTE + "api/v1/invitations/" + id, {is_confirmed: confrimed}).then(response => {
                 this.getDataFromApi()
                 this.snackbar = {
-                    message: 'Invitación Eliminada',
+                    message: 'Confirmación Aplicada',
                     color: 'success',
                     show: true
                 }
