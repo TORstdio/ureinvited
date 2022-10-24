@@ -7,8 +7,8 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text class="mx-2" to="/my-event">Mi Evento</v-btn>
-      <v-btn text class="mx-2" to="/">Mis Invitados</v-btn>
+      <!--v-btn text class="mx-2" to="/my-event">Mi Evento</v-btn>
+      <v-btn text class="mx-2" to="/">Mis Invitados</v-btn-->
 
       <v-spacer></v-spacer>
 
