@@ -25,8 +25,15 @@
         :loading="loading"
     >
     <template v-slot:[`item.is_confirmed`]="{ item }">
-        <v-icon v-if="item.is_confirmed!=true" color="grey"> mdi-close </v-icon>
-        <v-icon v-else color="primary"> mdi-check </v-icon>
+        <v-icon v-if="item.is_confirmed==null||item.is_confirmed==''||item.is_confirmed==undefined" @click="confirm(item.id, true)" color="grey"> mdi-account-question-outline </v-icon>
+        <v-icon v-else-if="item.is_confirmed" @click="confirm(item.id, false)" color="primary"> mdi-check </v-icon>
+        <v-btn v-else @click="confirm(item.id, true)" icon>
+            <v-icon color="red"> mdi-close </v-icon>
+        </v-btn>
+       
+    </template>
+    <template v-slot:[`item.delete`]="{ item }">
+        <v-icon @click="deleteItem(item.id)" color="grey" small> mdi-delete </v-icon>
     </template>
     <template v-slot:[`item.button`]="{ item }">
         <v-btn @click="copyInvitation(item)" small class="elevation-0"><v-icon class="mr-2" small>mdi-link</v-icon>Copiar Invitación</v-btn>
@@ -71,6 +78,7 @@ import axios from "axios"
             {text:'Email', value:'receiver_email', sortable:false},
             {text:'Mensaje', value:'guest_additional_message', sortable:false},
             {text:'', value:'button', sortable:false},
+            {text:'', value:'delete', sortable:false},
         ],
         dropzoneOptions: {
             url: process.env.VUE_APP_BACKEND_ROUTE + 'api/v1/invitation/bulk-import',
@@ -100,6 +108,26 @@ import axios from "axios"
         },
     },
     methods:{
+        confirm(id, confrimed){
+            axios.patch(process.env.VUE_APP_BACKEND_ROUTE + "api/v1/invitations/" + id, {is_confirmed: confrimed}).then(response => {
+                this.getDataFromApi()
+                this.snackbar = {
+                    message: 'Invitación Eliminada',
+                    color: 'success',
+                    show: true
+                }
+            })
+        },
+        deleteItem(id){
+            axios.delete(process.env.VUE_APP_BACKEND_ROUTE + "api/v1/invitations/" + id).then(response => {
+                this.getDataFromApi()
+                this.snackbar = {
+                    message: 'Invitación Eliminada',
+                    color: 'success',
+                    show: true
+                }
+            })
+        },
         sendIvitation(invitation){
             var text1 = 'Hola,%20nos%20es%20grato%20brindarte%20una%20cordial%20invitación%20a%20nuestro%20evento'
             var text2 = 'Te%20agradecemos%20mucho,%20el%20que%20puedas%20confirmar%20en%20la%20misma%20tu%20asistencia.'
@@ -133,7 +161,7 @@ import axios from "axios"
             })
         },
         copyInvitation(invitation){
-            var invitation_link = 'https://ureinvited.com/rocioygabriela/?' + 'id=' + invitation.id + '&receiver_name=' + invitation.receiver_name + '&guests_number=' + invitation.guests_number
+            var invitation_link = 'https://ureinvited.com/rocioygabriela/?' + 'id=' + invitation.id + '&receiver_name=' + encodeURIComponent(invitation.receiver_name) + '&guests_number=' + invitation.guests_number
             navigator.clipboard.writeText(invitation_link);
             this.snackbar = {
                 message: 'Invitación Copiada',
