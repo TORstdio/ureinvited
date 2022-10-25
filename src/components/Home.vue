@@ -25,7 +25,7 @@
         :loading="loading"
     >
     <template v-slot:[`item.is_confirmed`]="{ item }">
-        <v-icon v-if="item.is_confirmed==null||item.is_confirmed==''||item.is_confirmed==undefined" @click="confirm(item.id, true)" color="grey"> mdi-account-question-outline </v-icon>
+        <v-icon v-if="item.is_confirmed===null||item.is_confirmed===''||item.is_confirmed===undefined" @click="confirm(item.id, true)" color="grey"> mdi-account-question-outline </v-icon>
         <v-icon v-else-if="item.is_confirmed" @click="confirm(item.id, false)" color="primary"> mdi-check </v-icon>
         <v-btn v-else @click="confirm(item.id, true)" icon>
             <v-icon color="red"> mdi-close </v-icon>
