@@ -1,5 +1,18 @@
 <template>
   <v-card class="elevation-0">
+    <v-row class="ma-0">
+        <v-col cols="4" v-for="(total, index) in totals" v-bind:key="index">
+            <v-card class="pa-4">
+                <v-row class="ma-0">
+                    <v-icon :color="total.color" class="mr-3"> {{total.icon}} </v-icon>
+                    <strong>{{total.label}}</strong>
+                    <v-spacer/>
+                    {{total.total}}
+                </v-row>
+            </v-card>
+        </v-col>
+        
+    </v-row>
     <v-card-title>
         Lista de Invitados
         <v-spacer></v-spacer>
@@ -57,12 +70,14 @@
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import axios from "axios"
+import App from '../App.vue'
   export default {
     components: {
         vueDropzone: vue2Dropzone
     },
     data () {
       return {
+        totals:[],
         importDialog:false,
         totalInvitations: 0,
         invitations: [],
@@ -157,6 +172,7 @@ import axios from "axios"
             this.apiCall().then(data => {
                 this.invitations = data.invitations
                 this.totalInvitations = data.total
+                this.totals = data.totals
                 this.loading = false
             })
         },
@@ -189,9 +205,15 @@ import axios from "axios"
                     console.log(response)
                     invitations = this.mapInvitations(response.data.data)
                     total = total = response.data.meta.total
+                    var totals = [
+                        {label:'Pendientes', color:'grey', icon:'mdi-account-question-outline', total: response.data.meta.total_pending_invitations},
+                        {label:'Confirmadas', color:'primary', icon:'mdi-check', total: response.data.meta.total_accepted_invitations},
+                        {label:'Rechazadas', color:'red', icon:'mdi-close', total: response.data.meta.total_rejected_invitations},
+                    ]
                     resolve({
                         invitations,
                         total,
+                        totals
                     })
                 })
             })
