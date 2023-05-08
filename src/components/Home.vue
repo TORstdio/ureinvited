@@ -1,7 +1,7 @@
 <template>
   <v-card class="elevation-0">
     <v-row class="ma-0">
-        <v-col cols="4" v-for="(total, index) in totals" v-bind:key="index">
+        <v-col cols="12" md="4" v-for="(total, index) in totals" v-bind:key="index">
             <v-card class="pa-4">
                 <v-row class="ma-0">
                     <v-icon :color="total.color" class="mr-3"> {{total.icon}} </v-icon>
@@ -185,6 +185,8 @@ import App from '../App.vue'
                 show: true
             }
         },
+
+        
         apiCall () {
             return new Promise((resolve, reject) => {
                 const { sortBy, sortDesc, page, itemsPerPage } = this.options
