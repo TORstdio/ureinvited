@@ -146,7 +146,7 @@ import App from '../App.vue'
         sendIvitation(invitation){
             var text1 = 'Hola,%20nos%20es%20grato%20brindarte%20una%20cordial%20invitación%20a%20nuestro%20evento'
             var text2 = 'Te%20agradecemos%20mucho,%20el%20que%20puedas%20confirmar%20en%20la%20misma%20tu%20asistencia.'
-            var invitation_link = encodeURIComponent('https://ureinvited.com/rocioygabriela/?' + 'id=' + invitation.id + '&receiver_name=' + invitation.receiver_name + '&guests_number=' + invitation.guests_number)
+            var invitation_link = encodeURIComponent('https://ureinvited.com/lilianamarlene/?' + 'id=' + invitation.id + '&receiver_name=' + invitation.receiver_name + '&guests_number=' + invitation.guests_number)
             if( /Android|iPhone|BlackBerry/i.test(navigator.userAgent) ) {
                 var link = "https://wa.me/521"+invitation.reciever_phone+'?text=' + text1 + '%0A%0A' + invitation_link + '%0A%0A' + text2
                 location.replace(link, '_blank')
@@ -177,7 +177,7 @@ import App from '../App.vue'
             })
         },
         copyInvitation(invitation){
-            var invitation_link = 'https://ureinvited.com/rocioygabriela/?' + 'id=' + invitation.id + '&receiver_name=' + encodeURIComponent(invitation.receiver_name) + '&guests_number=' + invitation.guests_number
+            var invitation_link = 'https://ureinvited.com/lilianamarlene/?' + 'id=' + invitation.id + '&receiver_name=' + encodeURIComponent(invitation.receiver_name) + '&guests_number=' + invitation.guests_number
             navigator.clipboard.writeText(invitation_link);
             this.snackbar = {
                 message: 'Invitación Copiada',
